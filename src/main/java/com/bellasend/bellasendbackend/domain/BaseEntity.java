@@ -14,9 +14,10 @@ import java.time.Instant;
 @NoArgsConstructor
 @Data
 public abstract class BaseEntity {
-//TODO config uuid with mognodb orm
-    private String id;
+//TODO figure out to auto increment version and auto set time stamps
+//    TODO auto id generate for sub doc
+    private String _id;
     private Instant creationDateTime;
     private Instant modificationDateTime;
-    private Long version;
+    private Long version = 0L;
 }
