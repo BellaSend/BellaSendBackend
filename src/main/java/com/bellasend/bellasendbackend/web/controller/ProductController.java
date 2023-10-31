@@ -62,7 +62,11 @@ public class ProductController {
             @RequestParam(name = "price", required = false)BigDecimal price,
             @RequestParam(name = "brandName", required = false) String brandName
             ){
-        return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
+        pageNumber = pageNumber == null || pageNumber < 0 ? DEFAULT_PAGE_NUMBER : pageNumber;
+        pageSize = pageSize == null || pageSize < 0 ? DEFAULT_PAGE_SIZE : pageSize;
+        return new ResponseEntity<>(productService.getAll(
+                pageNumber, pageSize, categoryName, price, brandName
+        ), HttpStatus.OK);
     }
 
 }

@@ -8,8 +8,12 @@ import com.bellasend.bellasendbackend.web.dto.PagedListProductDto;
 import com.bellasend.bellasendbackend.web.dto.ProductDto;
 import com.bellasend.bellasendbackend.web.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
@@ -26,11 +30,6 @@ public class ProductServiceImpl implements ProductService {
         );
     }
 
-    @Override
-    public PagedListProductDto getAll() {
-//TODO write impl
-        return null;
-    }
 
     @Override
     public ProductDto getById(String productId) {
@@ -62,5 +61,69 @@ public class ProductServiceImpl implements ProductService {
         return productRepo.saveAll(products).stream()
                 .map(productMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public PagedListProductDto getAll(
+            Integer pageNumber,
+            Integer pageSize,
+            String categoryName,
+            BigDecimal price,
+            String brandName
+    ) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        Page<Product> productsPage;
+        if (!ObjectUtils.isEmpty(categoryName)
+                && !ObjectUtils.isEmpty(price)
+                && !ObjectUtils.isEmpty(brandName))
+        {
+            productsPage = productRepo.findProductsByProductCategoryNameAndPriceAndBrandName(
+                    categoryName, price, brandName, pageRequest
+            );
+        } else if (!ObjectUtils.isEmpty(categoryName) &&  !ObjectUtils.isEmpty(price))
+        {
+            productsPage = productRepo.findProductsByProductCategoryNameAndPrice(
+                    categoryName, price, pageRequest
+            );
+        } else if (!ObjectUtils.isEmpty(categoryName) && !ObjectUtils.isEmpty(brandName))
+        {
+            productsPage = productRepo.findProductsByProductCategoryNameAndBrandName(
+                    categoryName, brandName, pageRequest
+            );
+        } else if ( !ObjectUtils.isEmpty(price) && !ObjectUtils.isEmpty(brandName)) {
+            productsPage = productRepo.findProductsByPriceAndBrandName(
+                    price, brandName, pageRequest
+            );
+        } else if (!ObjectUtils.isEmpty(categoryName)) {
+            productsPage = productRepo.findProductsByProductCategoryName(
+                    categoryName, pageRequest
+            );
+        } else if ( !ObjectUtils.isEmpty(price)) {
+            productsPage = productRepo.findProductsByPrice(
+                    price, pageRequest
+            );
+        } else if (!ObjectUtils.isEmpty(brandName)) {
+            productsPage = productRepo.findProductsByBrandName(
+                    brandName, pageRequest
+            );
+        } else {
+            productsPage = productRepo.findAll(pageRequest);
+        }
+
+        List<ProductDto> productDtoList = productsPage.stream()
+                .map(productMapper::toDto)
+                .toList();
+        return PagedListProductDto.builder()
+                .content(productDtoList)
+                .hasNext(productsPage.hasNext())
+                .currentPageNumber(productsPage.getNumber())
+                .totalPages(productsPage.getTotalPages())
+                .totalElements(productsPage.getTotalElements())
+                .hasContent(productsPage.hasContent())
+                .hasPrevious(productsPage.hasPrevious())
+                .pageSize(productsPage.getSize())
+                .currentNumOfElements(productsPage.getNumberOfElements())
+                .build();
+
     }
 }
