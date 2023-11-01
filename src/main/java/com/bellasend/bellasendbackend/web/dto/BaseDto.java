@@ -14,7 +14,7 @@ import java.time.OffsetDateTime;
 @Data
 public class BaseDto{
     @Null
-    private String _id;
+    private String id;
     @Null
     private OffsetDateTime creationDateTime;
     @Null

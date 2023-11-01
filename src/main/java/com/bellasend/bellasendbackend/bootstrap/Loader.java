@@ -33,20 +33,20 @@ public class Loader implements CommandLineRunner {
             List<Product> products = List.of(
                     // Product 1
                      Product.builder()
-                             .creationDateTime(Instant.now())
-                             .modificationDateTime(Instant.now())
+//                             .creationDateTime(Instant.now())
+//                             .modificationDateTime(Instant.now())
                             .name("Dumpy Soap")
                             .brand(
                                     Brand.builder()
-                                            .creationDateTime(Instant.now())
-                                            .modificationDateTime(Instant.now())
+//                                            .creationDateTime(Instant.now())
+//                                            .modificationDateTime(Instant.now())
                                             .name("Generic")
                                             .build()
                             )
                             .productCategory(
                                     ProductCategory.builder()
-                                            .creationDateTime(Instant.now())
-                                            .modificationDateTime(Instant.now())
+//                                            .creationDateTime(Instant.now())
+//                                            .modificationDateTime(Instant.now())
                                             .name("Toiletries")
                                             .build()
                             )
@@ -57,20 +57,20 @@ public class Loader implements CommandLineRunner {
 
             // Product 2
              Product.builder()
-                     .creationDateTime(Instant.now())
-                     .modificationDateTime(Instant.now())
+//                     .creationDateTime(Instant.now())
+//                     .modificationDateTime(Instant.now())
                     .name("Dumpy Chips")
                     .brand(
                             Brand.builder()
-                                    .creationDateTime(Instant.now())
-                                    .modificationDateTime(Instant.now())
+//                                    .creationDateTime(Instant.now())
+//                                    .modificationDateTime(Instant.now())
                                     .name("SnackMaster")
                                     .build()
                     )
                     .productCategory(
                             ProductCategory.builder()
-                                    .creationDateTime(Instant.now())
-                                    .modificationDateTime(Instant.now())
+//                                    .creationDateTime(Instant.now())
+//                                    .modificationDateTime(Instant.now())
                                     .name("Snacks")
                                     .build()
                     )
@@ -82,19 +82,19 @@ public class Loader implements CommandLineRunner {
             // Product 3
            Product.builder()
                     .name("Dumpy Pillow")
-                   .creationDateTime(Instant.now())
-                   .modificationDateTime(Instant.now())
+//                   .creationDateTime(Instant.now())
+//                   .modificationDateTime(Instant.now())
                     .brand(
                             Brand.builder()
-                                    .creationDateTime(Instant.now())
-                                    .modificationDateTime(Instant.now())
+//                                    .creationDateTime(Instant.now())
+//                                    .modificationDateTime(Instant.now())
                                     .name("ComfortCo")
                                     .build()
                     )
                     .productCategory(
                             ProductCategory.builder()
-                                    .creationDateTime(Instant.now())
-                                    .modificationDateTime(Instant.now())
+//                                    .creationDateTime(Instant.now())
+//                                    .modificationDateTime(Instant.now())
                                     .name("Home Decor")
                                     .build()
                     )
@@ -105,20 +105,20 @@ public class Loader implements CommandLineRunner {
 
             // Product 4
         Product.builder()
-                    .creationDateTime(Instant.now())
-                    .modificationDateTime(Instant.now())
+//                    .creationDateTime(Instant.now())
+//                    .modificationDateTime(Instant.now())
                     .name("Dumpy Umbrella")
                     .brand(
                             Brand.builder()
-                                    .creationDateTime(Instant.now())
-                                    .modificationDateTime(Instant.now())
+//                                    .creationDateTime(Instant.now())
+//                                    .modificationDateTime(Instant.now())
                                     .name("RainShield")
                                     .build()
                     )
                     .productCategory(
                             ProductCategory.builder()
-                                    .creationDateTime(Instant.now())
-                                    .modificationDateTime(Instant.now())
+//                                    .creationDateTime(Instant.now())
+//                                    .modificationDateTime(Instant.now())
                                     .name("Accessories")
                                     .build()
                     )
@@ -129,20 +129,20 @@ public class Loader implements CommandLineRunner {
 
             // Product 5
            Product.builder()
-                   .creationDateTime(Instant.now())
-                   .modificationDateTime(Instant.now())
+//                   .creationDateTime(Instant.now())
+//                   .modificationDateTime(Instant.now())
                     .name("Dumpy Coffee Mug")
                     .brand(
                             Brand.builder()
-                                    .creationDateTime(Instant.now())
-                                    .modificationDateTime(Instant.now())
+//                                    .creationDateTime(Instant.now())
+//                                    .modificationDateTime(Instant.now())
                                     .name("MugMasters")
                                     .build()
                     )
                     .productCategory(
                             ProductCategory.builder()
-                                    .creationDateTime(Instant.now())
-                                    .modificationDateTime(Instant.now())
+//                                    .creationDateTime(Instant.now())
+//                                    .modificationDateTime(Instant.now())
                                     .name("Kitchenware")
                                     .build()
                     )
@@ -152,7 +152,7 @@ public class Loader implements CommandLineRunner {
                     .build()
             );
 
-            productRepo.saveAll(products);
+            productRepo.saveAll(products).forEach((product)->System.out.println(product.getId()));
             System.out.println(productRepo.count() + " products saved");
         }
     }

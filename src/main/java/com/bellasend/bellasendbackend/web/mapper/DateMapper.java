@@ -14,6 +14,6 @@ public class DateMapper {
     }
 
     public OffsetDateTime toOffsetDateTime(Instant instant){
-        return OffsetDateTime.ofInstant(instant, ZoneOffset.UTC);
+        return instant != null ? OffsetDateTime.ofInstant(instant, ZoneOffset.UTC) : null;
     }
 }
