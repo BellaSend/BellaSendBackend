@@ -45,9 +45,11 @@ public class ProductServiceImpl implements ProductService {
 
         productInDB.setUpc(productDto.getUpc());
         productInDB.setName(productDto.getName());
+        //TODO make it on its own cuz it is causing a modification date and version to update
         productInDB.setProductCategory(productDto.getProductCategory());
         productInDB.setPrice(productDto.getPrice());
         productInDB.setDetails(productDto.getDetails());
+        //TODO make it on its own cuz it is causing a modification date and version to update
         productInDB.setBrand(productDto.getBrand());
 
         productInDB.setModificationDateTime(Instant.now());
@@ -125,5 +127,11 @@ public class ProductServiceImpl implements ProductService {
                 .currentNumOfElements(productsPage.getNumberOfElements())
                 .build();
 
+    }
+
+    private Product generateCreationAndModificationInstant(Product product){
+        product.setCreationDateTime(Instant.now());
+        product.setModificationDateTime(Instant.now());
+        return product;
     }
 }

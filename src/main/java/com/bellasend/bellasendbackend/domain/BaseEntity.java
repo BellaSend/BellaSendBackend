@@ -1,10 +1,12 @@
 package com.bellasend.bellasendbackend.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -13,11 +15,17 @@ import java.time.Instant;
 @SuperBuilder
 @NoArgsConstructor
 @Data
-public abstract class BaseEntity {
-//TODO figure out to auto increment version and auto set time stamps
+public  class BaseEntity {
 //    TODO auto id generate for sub doc
-    private String _id;
+    @Id
+    private String id;
+
+    @CreatedDate
     private Instant creationDateTime;
+
+    @LastModifiedDate
     private Instant modificationDateTime;
-    private Long version = 0L;
+
+    @Version
+    private Long version;
 }
