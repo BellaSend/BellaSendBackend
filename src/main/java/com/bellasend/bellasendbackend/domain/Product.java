@@ -1,17 +1,15 @@
 package com.bellasend.bellasendbackend.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 
 @Document
-@SuperBuilder
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 public class Product extends BaseEntity{
@@ -23,9 +21,9 @@ public class Product extends BaseEntity{
 
     private BigDecimal price;
 
-    private ProductCategory productCategory;
+    private String productCategoryId;
 
     private String details;
 
-    private Brand brand;
+    private String brandId;
 }

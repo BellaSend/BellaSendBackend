@@ -45,12 +45,10 @@ public class ProductServiceImpl implements ProductService {
 
         productInDB.setUpc(productDto.getUpc());
         productInDB.setName(productDto.getName());
-        //TODO make it on its own cuz it is causing a modification date and version to update
-        productInDB.setProductCategory(productDto.getProductCategory());
+        productInDB.setProductCategoryId(productDto.getProductCategoryId());
         productInDB.setPrice(productDto.getPrice());
         productInDB.setDetails(productDto.getDetails());
-        //TODO make it on its own cuz it is causing a modification date and version to update
-        productInDB.setBrand(productDto.getBrand());
+        productInDB.setBrandId(productDto.getBrandId());
 
         productInDB.setModificationDateTime(Instant.now());
         return productMapper.toDto(productRepo.save(productInDB));
@@ -69,44 +67,44 @@ public class ProductServiceImpl implements ProductService {
     public PagedListProductDto getAll(
             Integer pageNumber,
             Integer pageSize,
-            String categoryName,
+            String categoryId,
             BigDecimal price,
-            String brandName
+            String brandId
     ) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         Page<Product> productsPage;
-        if (!ObjectUtils.isEmpty(categoryName)
+        if (!ObjectUtils.isEmpty(categoryId)
                 && !ObjectUtils.isEmpty(price)
-                && !ObjectUtils.isEmpty(brandName))
+                && !ObjectUtils.isEmpty(brandId))
         {
-            productsPage = productRepo.findProductsByProductCategoryNameAndPriceAndBrandName(
-                    categoryName, price, brandName, pageRequest
+            productsPage = productRepo.findProductsByProductCategoryIdAndPriceAndBrandId(
+                    categoryId, price, brandId, pageRequest
             );
-        } else if (!ObjectUtils.isEmpty(categoryName) &&  !ObjectUtils.isEmpty(price))
+        } else if (!ObjectUtils.isEmpty(categoryId) &&  !ObjectUtils.isEmpty(price))
         {
-            productsPage = productRepo.findProductsByProductCategoryNameAndPrice(
-                    categoryName, price, pageRequest
+            productsPage = productRepo.findProductsByProductCategoryIdAndPrice(
+                    categoryId, price, pageRequest
             );
-        } else if (!ObjectUtils.isEmpty(categoryName) && !ObjectUtils.isEmpty(brandName))
+        } else if (!ObjectUtils.isEmpty(categoryId) && !ObjectUtils.isEmpty(brandId))
         {
-            productsPage = productRepo.findProductsByProductCategoryNameAndBrandName(
-                    categoryName, brandName, pageRequest
+            productsPage = productRepo.findProductsByProductCategoryIdAndBrandId(
+                    categoryId, brandId, pageRequest
             );
-        } else if ( !ObjectUtils.isEmpty(price) && !ObjectUtils.isEmpty(brandName)) {
-            productsPage = productRepo.findProductsByPriceAndBrandName(
-                    price, brandName, pageRequest
+        } else if ( !ObjectUtils.isEmpty(price) && !ObjectUtils.isEmpty(brandId)) {
+            productsPage = productRepo.findProductsByPriceAndBrandId(
+                    price, brandId, pageRequest
             );
-        } else if (!ObjectUtils.isEmpty(categoryName)) {
-            productsPage = productRepo.findProductsByProductCategoryName(
-                    categoryName, pageRequest
+        } else if (!ObjectUtils.isEmpty(categoryId)) {
+            productsPage = productRepo.findProductsByProductCategoryId(
+                    categoryId, pageRequest
             );
         } else if ( !ObjectUtils.isEmpty(price)) {
             productsPage = productRepo.findProductsByPrice(
                     price, pageRequest
             );
-        } else if (!ObjectUtils.isEmpty(brandName)) {
-            productsPage = productRepo.findProductsByBrandName(
-                    brandName, pageRequest
+        } else if (!ObjectUtils.isEmpty(brandId)) {
+            productsPage = productRepo.findProductsByBrandId(
+                    brandId, pageRequest
             );
         } else {
             productsPage = productRepo.findAll(pageRequest);
@@ -118,20 +116,15 @@ public class ProductServiceImpl implements ProductService {
         return PagedListProductDto.builder()
                 .content(productDtoList)
                 .hasNext(productsPage.hasNext())
-                .currentPageNumber(productsPage.getNumber())
+                .currentPageNumber(productsPage.getPageable().getPageNumber())
                 .totalPages(productsPage.getTotalPages())
                 .totalElements(productsPage.getTotalElements())
                 .hasContent(productsPage.hasContent())
                 .hasPrevious(productsPage.hasPrevious())
-                .pageSize(productsPage.getSize())
+                .pageSize(productsPage.getPageable().getPageSize())
                 .currentNumOfElements(productsPage.getNumberOfElements())
                 .build();
 
     }
 
-    private Product generateCreationAndModificationInstant(Product product){
-        product.setCreationDateTime(Instant.now());
-        product.setModificationDateTime(Instant.now());
-        return product;
-    }
 }

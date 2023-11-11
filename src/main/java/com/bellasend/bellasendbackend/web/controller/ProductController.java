@@ -25,7 +25,6 @@ public class ProductController {
 
     private final ProductService productService;
 
-//TODO Testing followed by service
     @PostMapping
     public ResponseEntity<ProductDto> saveSingle(
         @NotNull @Valid @RequestBody ProductDto productDto
@@ -58,14 +57,14 @@ public class ProductController {
     public ResponseEntity<PagedListProductDto> getAll(
             @RequestParam(name = "pageNumber", required = false) Integer pageNumber,
             @RequestParam(name = "pageSize", required = false) Integer pageSize,
-            @RequestParam(name = "categoryName", required = false) String categoryName,
+            @RequestParam(name = "categoryId", required = false) String categoryId,
             @RequestParam(name = "price", required = false)BigDecimal price,
-            @RequestParam(name = "brandName", required = false) String brandName
+            @RequestParam(name = "brandId", required = false) String brandId
             ){
         pageNumber = pageNumber == null || pageNumber < 0 ? DEFAULT_PAGE_NUMBER : pageNumber;
         pageSize = pageSize == null || pageSize < 0 ? DEFAULT_PAGE_SIZE : pageSize;
         return new ResponseEntity<>(productService.getAll(
-                pageNumber, pageSize, categoryName, price, brandName
+                pageNumber, pageSize, categoryId, price, brandId
         ), HttpStatus.OK);
     }
 

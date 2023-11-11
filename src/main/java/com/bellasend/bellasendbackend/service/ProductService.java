@@ -16,5 +16,5 @@ public interface ProductService {
 
     List<ProductDto> saveList(List<ProductDto> productDtos);
 
-    PagedListProductDto getAll(Integer pageNumber, Integer pageSize, String categoryName, BigDecimal price, String brandName);
+    PagedListProductDto getAll(Integer pageNumber, Integer pageSize, String categoryId, BigDecimal price, String brandId);
 }
